@@ -4,7 +4,7 @@ const formatPropName = (name) => {
     const capitalizedFirstLetter = uncapitalizedString.charAt(0).toUpperCase();
     const finalString = capitalizedFirstLetter + uncapitalizedString.slice(1);
      
-    return finalString;
+    return finalString.replace(',', '');
 };
 
 export { formatPropName };

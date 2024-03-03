@@ -9,7 +9,9 @@
                 :is="currentInput(data)"
                 :inputName="getInputName(data)"
                 :inputDefaultValue="getInputValue(data)"
+                :inputObject="getInputValue(data)"
                 :isDisabled="isComponentDisabled(data)"
+                markRaw
             />
         </div>
     </div>
@@ -20,7 +22,8 @@ import {
     DefaultInput, 
     SectionInput, 
     ObjectInput 
- } from './inputs/index';
+} from './inputs/index';
+import { getInputType } from './utils/getInputType';
 
 export default {
     name: 'FormGenerator',
@@ -42,37 +45,28 @@ export default {
     },
     computed: {
         properties() {
-            return Object.entries(this.formData).map(([k, v]) => ({ [k]: v }));
+            return Object.entries(this.formData).map(([k, v]) => ({ [k]: v })) || [];
         },
     },
     methods: {
         closeForm() {
             this.$emit('closeForm');
         },
-        getInputName(object) {            
+        getInputName(object) {
             return Object.keys(object)[0];
         },
         getInputValue(data) {
             const inputName = this.getInputName(data);
             return this.formData[inputName];
         },
-        getInputType(object) {
+        getType(object) {
             const inputName = this.getInputName(object);
             const property = this.formData[inputName];
 
-            const isArray = Array.isArray(property);
-            if(isArray) {
-                return 'array';
-            }
-
-            if(property == null) {
-                return 'string';
-            }
-
-            return typeof property;
+            return getInputType(property);
         },
         currentInput(prop) {
-            const inputType = this.getInputType(prop);
+            const inputType = this.getType(prop);
 
             return this.componentTypes[inputType];
         },
@@ -91,6 +85,7 @@ export default {
     height: 100%;
     width: 100%;
     overflow-y: auto;
+    padding: 20px;
 
     .form-header-component {
         display: flex;

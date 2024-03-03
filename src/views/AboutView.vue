@@ -1,7 +1,9 @@
 import FormGenerator from '../components/form-generator/FormGenerator.vue';
 <template>
   <div class="about">
-    <FormGenerator 
+    <Loading v-if="loading" />
+    <FormGenerator
+      v-if="!loading"
       :formData="artist" 
       formName="Artista"
       :disabledInputs="[ '_id', 'publicId' ]"
@@ -11,11 +13,14 @@ import FormGenerator from '../components/form-generator/FormGenerator.vue';
 <script>
 import axios from 'axios';
 import FormGenerator from '../components/form-generator/FormGenerator.vue';
+import Loading from '../components/Loading.vue';
+
 export default {
-  components: { FormGenerator },
+  components: { FormGenerator, Loading },
   data() {
     return {
       artist: {},
+      loading: true,
     }
   },
   mounted() {
@@ -23,9 +28,11 @@ export default {
   },
   methods: {
     async getArtistInformation() {
-      await axios.get("https://ebac.fly.dev/artista")
+      await axios.get("https://ebacontemporanea.onrender.com/artista")
         .then(response => {
           this.artist = response.data.artists[0];
+          console.log(this.artist.biografia);
+          this.loading = false;
         });
     }
   }

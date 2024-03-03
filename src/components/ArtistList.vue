@@ -1,11 +1,13 @@
 <template>
-    <div class="artist-list-component">
-        <ArtistItem 
-            v-for="a in artists" 
-            :key="a._id" 
-            :artist="a"
-            :openEditModal="openEditModal"
-        />
+    <div class="artist-list-component-wrapper">
+        <div class="artist-list-component">
+            <ArtistItem 
+                v-for="a in artists" 
+                :key="a._id" 
+                :artist="a"
+                :openEditModal="openEditModal"
+            />
+        </div>
 
         <div v-if="isModalOpen" class="artist-edit-modal">
             <p @click="closeEditModal">CLOSE</p>
@@ -53,7 +55,7 @@ export default {
             this.isModalOpen = false;
         },
         async submitArtist(editedArtist) {
-            await axios.put(`https://ebac.fly.dev/artista/${editedArtist.publicId}`, editedArtist)
+            await axios.put(`https://ebacontemporanea.onrender.com/artista/${editedArtist.publicId}`, editedArtist)
                 .then(() => {
                     alert('Artista atualizado com sucesso!');
                     this.$emit('getAllArtists');

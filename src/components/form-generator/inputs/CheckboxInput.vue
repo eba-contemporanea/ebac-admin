@@ -6,12 +6,13 @@
             :checked="inputDefaultValue"
             :name="inputName"
             :disabled="isDisabled"
+            markRaw
         > 
         <label :for="inputName">{{ formattedName }}</label>
     </div>
 </template>
 <script>
-import { formatPropName } from '../../../utils/formatPropName';
+import { formatPropName } from '../utils/formatPropName';
 
 export default {
     name: 'CheckboxInput',

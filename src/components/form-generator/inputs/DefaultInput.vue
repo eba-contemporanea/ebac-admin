@@ -1,13 +1,14 @@
 <template>
     <label :for="inputName">{{ formattedName }}</label>
-    <input 
+    <component
+        :is="isLongText ? 'textarea' : 'input'"
         :disabled="isDisabled" 
         :id="inputName" 
         :value="inputDefaultValue"
-    >
+    />
 </template>
 <script>
-import { formatPropName } from '../../../utils/formatPropName';
+import { formatPropName } from '../utils/formatPropName';
 
 export default {
     name: 'DefaultInput',
@@ -19,6 +20,9 @@ export default {
     computed: {
         formattedName() {
             return formatPropName(this.inputName);
+        },
+        isLongText() {
+            return this.inputDefaultValue?.length > 200;
         }
     }
 }

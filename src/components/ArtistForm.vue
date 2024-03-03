@@ -291,9 +291,6 @@ export default {
             }
         }
     },
-    mounted() {
-        console.log(this.artist);
-    },
     methods: {
         removeItemFromArray(arrayName, index) {
             this.editedArtist[arrayName] = this.editedArtist[arrayName].filter((a, i) => i !== index);
